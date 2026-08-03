@@ -24,18 +24,6 @@ if (process.env.NODE_ENV !== "production") {
 
 app.get("/api/health", (req, res) => res.json({ status: "ok", name: "Keshav Enterprises API" }));
 
-app.get("/api/run-seed-once-xyz123", async (req, res) => {
-  if (req.query.key !== process.env.JWT_SECRET) {
-    return res.status(403).json({ message: "Forbidden" });
-  }
-  try {
-    const { execSync } = await import("child_process");
-    const output = execSync("node seeder.js", { encoding: "utf-8" });
-    res.json({ message: "Seed complete", output });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
